@@ -489,7 +489,7 @@
           <div class="now"><small>R$</small> 37,90</div>
           <div class="inst">Pagamento único · menos de R$ 2 por dia de preparação</div>
         </div>
-        <a class="btn" id="btn-combo" href="#">QUERO O COMBO COMPLETO</a>
+        <a class="btn" id="btn-combo" href="https://pay.kiwify.com.br/1dRl4kX">QUERO O COMBO COMPLETO</a>
       </div>
       <div class="plan">
         <h3>Guia de Revisão</h3>
@@ -504,7 +504,7 @@
           <div class="now"><small>R$</small> 19,90</div>
           <div class="inst">Pagamento único</div>
         </div>
-        <a class="btn ghost" id="btn-guia" href="#">QUERO SOMENTE O GUIA</a>
+        <a class="btn ghost" id="btn-guia" href="https://pay.kiwify.com.br/ZV08nYY">QUERO SOMENTE O GUIA</a>
       </div>
     </div>
     <div class="pay">
@@ -584,7 +584,7 @@
       <div class="old">Combo Reta Final<br>de <s>R$ 37,90</s> por<br><span class="save">Você economiza R$ 10</span></div>
       <div class="new"><small>R$</small> 27,90</div>
     </div>
-    <a class="btn" id="oferta-aceitar" href="#">SIM, QUERO O COMBO POR R$ 27,90</a>
+    <a class="btn" id="oferta-aceitar" href="https://pay.kiwify.com.br/hx9ykxl">SIM, QUERO O COMBO POR R$ 27,90</a>
     <button class="offer-decline" type="button" id="oferta-recusar">Não, obrigado. Quero só o guia por R$ 19,90</button>
     <p class="offer-note">Desconto exclusivo desta oferta. Garantia de 7 dias.</p>
   </div>
@@ -593,10 +593,22 @@
 <script>
   /* ===== Links de checkout: cole aqui os links reais ===== */
   const CHECKOUT = {
-    combo:         "#",  // Combo Reta Final (R$ 37,90)
-    comboDesconto: "#",  // Combo com desconto do pop-up (R$ 27,90)
-    guia:          "#"   // Somente o guia (R$ 19,90)
+    combo:         "https://pay.kiwify.com.br/1dRl4kX",  // Combo Reta Final (R$ 37,90)
+    comboDesconto: "https://pay.kiwify.com.br/hx9ykxl",  // Combo com desconto do pop-up (R$ 27,90)
+    guia:          "https://pay.kiwify.com.br/ZV08nYY"   // Somente o guia (R$ 19,90)
   };
+
+  // Repassa os parâmetros do link do anúncio (utm_source, utm_campaign etc.) para o checkout,
+  // para a Kiwify registrar de onde veio cada venda.
+  (function(){
+    const q = new URLSearchParams(window.location.search);
+    if (![...q.keys()].length) return;
+    for (const k in CHECKOUT) {
+      const u = new URL(CHECKOUT[k]);
+      q.forEach((v, key) => { if (!u.searchParams.has(key)) u.searchParams.set(key, v); });
+      CHECKOUT[k] = u.toString();
+    }
+  })();
 
   (function(){
     const dlg = document.getElementById('oferta-combo');
